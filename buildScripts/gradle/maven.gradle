@@ -56,7 +56,7 @@ def gitShortRev() {
 }
 
 def setScm(scm) {
-    scm.appendNode('connection', 'https://github.com/Tencent/Shadow.git')
+    scm.appendNode('connection', 'https://github.com/SpenceAcc/Shadow.git')
 
     def commit
     if ("${System.env.ORANGE}".equalsIgnoreCase("true")) {
@@ -64,7 +64,7 @@ def setScm(scm) {
     } else {
         commit = gitShortRev()
     }
-    scm.appendNode('url', "https://github.com/Tencent/Shadow/commit/$commit")
+    scm.appendNode('url', "https://github.com/SpenceAcc/Shadow/commit/$commit")
 }
 
 def setGeneratePomFileAndDepends(publicationName) {
@@ -78,9 +78,9 @@ def setGeneratePomFileAndDepends(publicationName) {
 }
 
 def publicationVersion = project.ARTIFACT_VERSION
-def coreGroupId = 'com.tencent.shadow.core'
+def coreGroupId = 'com.yihuo.shadow.core'
 def corePath = 'projects/sdk/core'
-def dynamicGroupId = 'com.tencent.shadow.dynamic'
+def dynamicGroupId = 'com.yihuo.shadow.dynamic'
 def dynamicPath = 'projects/sdk/dynamic'
 
 publishing {
@@ -295,7 +295,13 @@ publishing {
         }
     }
     repositories {
-        mavenLocal()
+        maven {
+            credentials {
+                username NEXUS_USERNAME
+                password NEXUS_PASSWORD
+            }
+            url 'http://172.30.7.253:8084/repository/Shadow/'
+        }
     }
 }
 
